@@ -1,10 +1,13 @@
 package api;
 
+import exception.DemoObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pojo.DemoObject;
 import repo.DemoObjectRepo;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 @RestController
@@ -26,7 +29,7 @@ public class DemoRestAPIController {
                 return dobj;
             }
         }
-        return null;
+        throw new DemoObjectNotFoundException(id);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/count")
@@ -40,6 +43,13 @@ public class DemoRestAPIController {
         newObj.setId(id);
         repo.getList().add(newObj);
         return id;
+    }
+
+    @ExceptionHandler(DemoObjectNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Error demoObjectNotFound(DemoObjectNotFoundException e) {
+        long demoObjectId = e.getDemoObjectId();
+        return new Error(13, MessageFormat.format("DemoObject {0} not found.", demoObjectId));
     }
 
 }
