@@ -20,7 +20,7 @@ public class DemoObjectRepo {
         }
     };
 
-    public List<DemoObject> getList() {
+    public List<DemoObject> getDemoObjects() {
         return list;
     }
 
