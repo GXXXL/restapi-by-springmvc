@@ -1,1 +1,1 @@
-This project shows how to create restapi with springmvc.
+This project shows how to create restful api with springmvc.
